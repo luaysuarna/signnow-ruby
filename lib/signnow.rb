@@ -13,13 +13,6 @@ module Signnow
 
   autoload :Base,             "signnow/base"
   autoload :Client,           "signnow/client"
-  autoload :Offer,            "signnow/offer"
-  autoload :Payment,          "signnow/payment"
-  autoload :Preauthorization, "signnow/preauthorization"
-  autoload :Refund,           "signnow/refund"
-  autoload :Subscription,     "signnow/subscription"
-  autoload :Transaction,      "signnow/transaction"
-  autoload :Webhook,          "signnow/webhook"
 
   module Operations
     autoload :All,    "signnow/operations/all"
@@ -40,20 +33,6 @@ module Signnow
   class SignnowError < StandardError; end
   class AuthenticationError < SignnowError; end
   class APIError            < SignnowError; end
-
-  # Returns the set api key
-  #
-  # @return [String] The api key
-  def self.api_key
-    @@api_key
-  end
-
-  # Sets the api key
-  #
-  # @param [String] api_key The api key
-  def self.api_key=(api_key)
-    @@api_key = api_key
-  end
 
   # Makes a request against the Signnow API
   #
