@@ -10,15 +10,16 @@ module Signnow
   API_VERSION = 'v1'
   ROOT_PATH   = File.dirname(__FILE__)
 
-  attr_accessor :oauth
+  attr_accessor :oauth_token
 
   @@api_key = nil
 
-  autoload :Base,             "signnow/base"
+  autoload :Base,           "signnow/base"
   autoload :User,           "signnow/user"
 
   module Authentications
-    autoload :Oauth, "signnow/authentications/oauth"
+    autoload :Base,   "signnow/authentications/base"
+    autoload :Oauth,  "signnow/authentications/oauth"
   end
 
   module Operations

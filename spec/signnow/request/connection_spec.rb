@@ -1,6 +1,10 @@
 require "spec_helper"
 
 describe Signnow::Request::Connection do
+  before :each do
+    Signnow.api_key = "_your_signnow_api_key_"
+  end
+
   describe "#setup_https" do
     it "creates a https object" do
       connection = Signnow::Request::Connection.new(nil)

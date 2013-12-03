@@ -28,6 +28,24 @@ and set up your api_key
 
     Signnow.api_key = "_your_application_api_key_"
 
+all the operations made over a user needs a oauth_token
+
+    Signnow.oauth_token = "_your_user_oauth_token_"
+
+
+Oauth
+=====
+
+*[SignNow oauth2 API documentation](https://signnow.atlassian.net/wiki/display/SAPI/REST+Endpoints#RESTEndpoints-POST/oauth2)*
+
+Creating a oauth token:
+
+    oauth = Signnow::Authentications::Oauth.authenticate(
+      email: 'yournewuser@email.com', # required
+      password: 'user_password', # required
+    )
+    Signnow.oauth_token = oauth.access_token
+
 
 Users
 =====
@@ -36,25 +54,16 @@ Users
 
 Creating a user:
 
-    Paymill::User.create(
+    Singnow::User.create(
       email: 'yournewuser@email.com', # required
       password: 'new_password', # required
       first_name: 'john', # optional
       last_name: 'doe', # optional
     )
 
-Creating a new debit card payment:
+Showing a user:
 
-    Paymill::Payment.create(type: "debit", code: "12345678", account: "1234512345", holder: "Max Mustermann")
-
-Or finding an existing payment:
-
-    Paymill::Payment.find("pay_3af44644dd6d25c820a8")
-
-Deleting a payment:
-
-    Paymill::Payment.delete("pay_3af44644dd6d25c820a8")
-
+    Singnow::Payment.show
 
 
 Documentation

@@ -26,9 +26,11 @@ module Signnow
         return {} unless @info.authentication[:type]
         case @info.authentication[:type]
         when :basic
+          raise AuthenticationError unless Signnow.api_key
           {'Authorization' => "Basic #{Signnow.api_key}}"}
         when :user_token
-          {'Authorization' => "Bearer #{Signnow.oauth.access_token}}"}
+          raise AuthenticationError unless Signnow.oauth_token
+          {'Authorization' => "Bearer #{Signnow.oauth_token}}"}
         else
           {}
         end

@@ -4,6 +4,7 @@ describe Signnow do
   describe ".request" do
     context "given no api key exists" do
       it "raises an authentication error" do
+        Signnow.api_key = nil
         expect { Signnow.request(:get, nil, "clients", {}) }.to raise_error(Signnow::AuthenticationError)
       end
     end
