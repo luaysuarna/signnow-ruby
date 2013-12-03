@@ -11,12 +11,14 @@ module Signnow
           self.new(response["data"])
         end
 
+        # URl for the authenticate endpoint
+        # overwrite this in the model if the api is not well named
+        #
+        def api_authenticate_url
+          "#{self.name.split("::").last.downcase}"
+        end
+        protected :api_authenticate_url
       end
-
-      def api_authenticate_url
-        "#{self.name.split("::").last.downcase}"
-      end
-      protected :api_authenticate_url
     end
   end
 end

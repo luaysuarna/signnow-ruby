@@ -28,10 +28,12 @@ module Signnow
         @created = Time.at(created_at) if created
       end
 
-      def api_authenticate_url
-        "/oauth2/token"
+      class << self
+        def api_authenticate_url
+          "/oauth2/token"
+        end
+        protected :api_authenticate_url
       end
-      protected :api_authenticate_url
     end
   end
 end

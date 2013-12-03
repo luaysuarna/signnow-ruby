@@ -7,9 +7,19 @@ module Signnow
         # @param [Integer] id The id of the object that should be updated
         # @param [Hash] attributes The attributes that should be updated
         def update_attributes(id, attributes)
-          response = Signnow.request(:put, nil, "#{self.name.split("::").last.downcase}/#{id}", attributes)
+          response = Signnow.request(:put, nil, api_update_url(id), attributes)
           self.new(response["data"])
         end
+
+        # URl for the update endpoint
+        # overwrite this in the model if the api is not well named
+        #
+        def api_update_url(id=nil)
+          url = "#{self.name.split("::").last.downcase}"
+          url += "/#{id}" if id
+          url
+        end
+        protected :api_update_url
       end
 
       def self.included(base)

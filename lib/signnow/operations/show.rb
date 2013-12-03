@@ -7,11 +7,19 @@ module Signnow
         # @param [Integer] id The id of the object that should be shown
         # @return [Signnow::Base] The found object
         def show(id=nil)
-          url = "#{self.name.split("::").last.downcase}"
-          url += "/#{id}" if id
-          response = Signnow.request(:get, nil, url, {})
+          response = Signnow.request(:get, nil, api_show_url(id), {})
           self.new(response["data"])
         end
+
+        # URl for the show endpoint
+        # overwrite this in the model if the api is not well named
+        #
+        def api_show_url(id=nil)
+          url = "#{self.name.split("::").last.downcase}"
+          url += "/#{id}" if id
+          url
+        end
+        protected :api_show_url
       end
 
       def self.included(base)
