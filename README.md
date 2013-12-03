@@ -10,9 +10,6 @@ Documentation
 
 We use RubyDoc for documentation.
 
-The documentation of the current release can be found here:
-http://rubydoc.info/gems/paymill/frames/index
-
 Usage
 ======
 
@@ -95,7 +92,7 @@ Documentation
 Requirements
 =====
 
-This gem requires Ruby 1.9 and faces version 2 of Paymill's API.
+This gem requires at least Ruby 1.9 and faces version 1 of SignNow's API.
 
 Bugs
 ======
