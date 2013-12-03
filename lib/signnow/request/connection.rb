@@ -9,8 +9,9 @@ module Signnow
       end
 
       def setup_https
-        @https             = Net::HTTP.new( @info.subdomain + '.' + API_BASE, Net::HTTP.https_default_port)
+        @https             = Net::HTTP.new(api_url, Net::HTTP.https_default_port)
         @https.use_ssl     = true
+        @https.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
 
       def request
@@ -25,7 +26,7 @@ module Signnow
         return {} unless @info.authentication[:type]
         case @info.authentication[:type]
         when :basic
-          {'Authorization' => "Basic #{Signnow.api_token}}"}
+          {'Authorization' => "Basic #{Signnow.api_key}}"}
         when :user_token
           {'Authorization' => "Bearer #{Signnow.oauth.access_token}}"}
         else
@@ -46,10 +47,21 @@ module Signnow
                         end
 
         if [:post, :put].include?(@info.http_method)
-          request.body = JSON.generate(normalize_params(@info.data))
+          https_request.body = JSON.generate(normalize_params(@info.data))
         end
 
         https_request
+      end
+
+      # Returns the api url foir this request or default
+      def api_url
+        domain + '.' + API_BASE
+      end
+
+      # Returns the domain for the current request or the default one
+      def domain
+        return @info.subdomain if @info
+        DOMAIN_BASE
       end
     end
   end
