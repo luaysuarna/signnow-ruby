@@ -1,4 +1,4 @@
-module Paymill
+module Signnow
   module Request
     module Helpers
       def flatten_hash_keys(old_hash, new_hash={}, keys=nil)

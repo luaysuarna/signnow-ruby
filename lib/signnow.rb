@@ -9,10 +9,16 @@ module Signnow
   API_VERSION = 'v1'
   ROOT_PATH   = File.dirname(__FILE__)
 
+  attr_accessor :oauth
+
   @@api_key = nil
 
   autoload :Base,             "signnow/base"
-  autoload :Client,           "signnow/client"
+  autoload :Client,           "signnow/user"
+
+  module Authentications
+    autoload :Oauth, "signnow/authentications/oauth"
+  end
 
   module Operations
     autoload :All,    "signnow/operations/all"
@@ -34,13 +40,28 @@ module Signnow
   class AuthenticationError < SignnowError; end
   class APIError            < SignnowError; end
 
+  # Returns the set api key
+  #
+  # @return [String] The api key
+  def self.api_key
+    @@api_key
+  end
+
+  # Sets the api key
+  #
+  # @param [String] api_key The api key
+  def self.api_key=(api_key)
+    @@api_key = api_key
+  end
+
   # Makes a request against the Signnow API
   #
   # @param [Symbol] http_method The http method to use, must be one of :get, :post, :put and :delete
+  # @param [String] domain The API domain to use
   # @param [String] api_url The API url to use
   # @param [Hash] data The data to send, e.g. used when creating new objects.
   # @return [Array] The parsed JSON response.
-  def self.request(http_method, api_url, data)
+  def self.request(http_method, domain, api_url, data)
     info = Request::Info.new(http_method, api_url, data)
     Request::Base.new(info).perform
   end

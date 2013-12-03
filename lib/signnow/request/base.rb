@@ -1,4 +1,4 @@
-module Paymill
+module Signnow
   module Request
     class Base
       attr_reader :info
@@ -9,7 +9,7 @@ module Paymill
       end
 
       def perform
-        raise AuthenticationError if Paymill.api_key.nil?
+        raise AuthenticationError if Singnow.api_key.nil?
         connection.setup_https
         send_request
 

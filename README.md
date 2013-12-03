@@ -22,7 +22,39 @@ First, you've to install the gem
 
 and require it
 
-    require "signow"
+    require "signnow"
+
+and set up your api_key
+
+    Signnow.api_key = "_your_application_api_key_"
+
+
+Users
+=====
+
+*[SignNow users API documentation](https://signnow.atlassian.net/wiki/display/SAPI/REST+Endpoints#RESTEndpoints-/user)*
+
+Creating a user:
+
+    Paymill::User.create(
+      email: 'yournewuser@email.com', # required
+      password: 'new_password', # required
+      first_name: 'john', # optional
+      last_name: 'doe', # optional
+    )
+
+Creating a new debit card payment:
+
+    Paymill::Payment.create(type: "debit", code: "12345678", account: "1234512345", holder: "Max Mustermann")
+
+Or finding an existing payment:
+
+    Paymill::Payment.find("pay_3af44644dd6d25c820a8")
+
+Deleting a payment:
+
+    Paymill::Payment.delete("pay_3af44644dd6d25c820a8")
+
 
 
 Documentation

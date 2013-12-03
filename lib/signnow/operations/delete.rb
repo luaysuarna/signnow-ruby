@@ -1,4 +1,4 @@
-module Paymill
+module Signnow
   module Operations
     module Delete
       module ClassMethods
@@ -6,7 +6,7 @@ module Paymill
         #
         # @param [Integer] id The id of the object that gets deleted
         def delete(id)
-          response = Paymill.request(:delete, "#{self.name.split("::").last.downcase}s/#{id}", {})
+          response = Signnow.request(:delete, nil, "#{self.name.split("::").last.downcase}s/#{id}", {})
           true
         end
       end

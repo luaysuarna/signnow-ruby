@@ -1,10 +1,10 @@
-module Paymill
+module Signnow
   class Base
-    include Paymill::Operations::All
-    include Paymill::Operations::Create
-    include Paymill::Operations::Find
+    include Signnow::Operations::All
+    include Signnow::Operations::Create
+    include Signnow::Operations::Find
 
-    attr_accessor :created_at, :updated_at
+    attr_accessor :created
 
     # Initializes the object using the given attributes
     #
@@ -25,8 +25,7 @@ module Paymill
 
     # Parses UNIX timestamps and creates Time objects.
     def parse_timestamps
-      @created_at = Time.at(created_at) if created_at
-      @updated_at = Time.at(updated_at) if updated_at
+      @created = Time.at(created_at) if created
     end
   end
 end

@@ -1,4 +1,4 @@
-module Paymill
+module Singnow
   module Request
     class Connection
       include Helpers
@@ -9,10 +9,8 @@ module Paymill
       end
 
       def setup_https
-        @https             = Net::HTTP.new(API_BASE, Net::HTTP.https_default_port)
+        @https             = Net::HTTP.new(DOMAIN_BASE + API_BASE, Net::HTTP.https_default_port)
         @https.use_ssl     = true
-        @https.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        @https.ca_file     = File.join(ROOT_PATH, "data/paymill.crt")
       end
 
       def request
@@ -23,21 +21,34 @@ module Paymill
 
       protected
 
+      def authentication
+        return {} unless @info.authentication[:type]
+        case @info.authentication[:type]
+        when :basic
+          {{'Authorization' => "Basic #{Singnow.api_token}}"}}
+        when :user_token
+          {{'Authorization' => "Bearer #{Singnow.oauth.access_token}}"}}
+        else
+          {}
+        end
+      end
+
       def https_request
         https_request = case @info.http_method
                         when :post
-                          Net::HTTP::Post.new(@info.url)
+                          Net::HTTP::Post.new(@info.url, authentication)
                         when :put
-                          Net::HTTP::Put.new(@info.url)
+                          Net::HTTP::Put.new(@info.url, authentication)
                         when :delete
-                          Net::HTTP::Delete.new(@info.url)
+                          Net::HTTP::Delete.new(@info.url, authentication)
                         else
-                          Net::HTTP::Get.new(@info.path_with_params(@info.url, @info.data))
+                          Net::HTTP::Get.new(@info.path_with_params(@info.url, @info.data.merge(authentication)))
                         end
-        https_request.basic_auth(Paymill.api_key, "")
+
+        end
 
         if [:post, :put].include?(@info.http_method)
-          https_request.set_form_data(normalize_params(@info.data))
+          request.body = JSON.generate(normalize_params(@info.data))
         end
 
         https_request

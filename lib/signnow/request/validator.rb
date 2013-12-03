@@ -1,4 +1,4 @@
-module Paymill
+module Signnow
   module Request
     class Validator
       attr_reader :info

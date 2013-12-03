@@ -1,17 +1,21 @@
-module Paymill
+module Signnow
   module Request
     class Info
-      attr_accessor :http_method, :api_url, :data
+      attr_accessor :http_method, :api_url, :data, :domain, :authentication
 
-      def initialize(http_method, api_url, data)
+      def initialize(http_method, domain, api_url, data, options={})
         @http_method = http_method
+        @domain      = domain
         @api_url     = api_url
         @data        = data
+        @authentication = {}
+        @authentication[:type] = options[:auth_type]
+        @authentication[:token] = options[:auth_token]
       end
 
       def url
-        url = "/#{API_VERSION}/#{api_url}"
-        if is_refund?
+        url = "/#{domain}.#{api_url}"
+        if has_id?
           url += "/#{data[:id]}"
           data.delete(:id)
         end
@@ -30,8 +34,8 @@ module Paymill
 
       protected
 
-      def is_refund?
-        api_url == "refunds"
+      def has_id?
+        data[:id].present?
       end
     end
   end
