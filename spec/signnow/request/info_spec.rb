@@ -3,7 +3,7 @@ require "spec_helper"
 describe Signnow::Request::Info do
   describe "#url" do
     it "constructs the url" do
-      info = Signnow::Request::Info.new(:get, nil, "random", OpenStruct.new(id: 1))
+      info = Signnow::Request::Info.new(:get, nil, "random", {id: 1} )
 
       info.url.should =~ /random/
     end
