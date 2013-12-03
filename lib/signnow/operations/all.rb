@@ -7,7 +7,7 @@ module Signnow
         # @param [Hash] options Options to pass to the API
         # @return [Array] The available objects
         def all(options = {})
-          response = Signnow.request(:get, nil, "#{self.name.split("::").last.downcase}s/", options)
+          response = Signnow.request(:get, nil, "#{self.name.split("::").last.downcase}/", options)
           results_from response
         end
 

@@ -14,7 +14,7 @@ module Signnow
   @@api_key = nil
 
   autoload :Base,             "signnow/base"
-  autoload :Client,           "signnow/user"
+  autoload :User,           "signnow/user"
 
   module Authentications
     autoload :Oauth, "signnow/authentications/oauth"
@@ -25,6 +25,7 @@ module Signnow
     autoload :Create, "signnow/operations/create"
     autoload :Delete, "signnow/operations/delete"
     autoload :Find,   "signnow/operations/find"
+    autoload :Show,   "signnow/operations/show"
     autoload :Update, "signnow/operations/update"
   end
 

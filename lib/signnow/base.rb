@@ -25,6 +25,7 @@ module Signnow
 
     # Parses UNIX timestamps and creates Time objects.
     def parse_timestamps
+      @created = created.to_i if created.is_a? String
       @created = Time.at(created) if created
     end
   end

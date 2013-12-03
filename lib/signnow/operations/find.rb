@@ -7,7 +7,7 @@ module Signnow
         # @param [Integer] id The id of the object that should be found
         # @return [Signnow::Base] The found object
         def find(id)
-          response = Signnow.request(:get, nil, "#{self.name.split("::").last.downcase}s/#{id}", {})
+          response = Signnow.request(:get, nil, "#{self.name.split("::").last.downcase}/#{id}", {})
           self.new(response["data"])
         end
       end

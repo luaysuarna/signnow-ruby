@@ -6,7 +6,7 @@ module Signnow
         #
         # @param [Hash] attributes The attributes of the created object
         def create(attributes)
-          response = Signnow.request(:post, nil, "#{self.name.split("::").last.downcase}s", attributes)
+          response = Signnow.request(:post, nil, "#{self.name.split("::").last.downcase}", attributes)
           self.new(response["data"])
         end
       end
