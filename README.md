@@ -66,6 +66,24 @@ Showing a user:
     Singnow::Payment.show
 
 
+Documents
+=====
+
+*[SignNow documents API documentation](https://signnow.atlassian.net/wiki/display/SAPI/REST+Endpoints#RESTEndpoints-/document)*
+
+List user documents:
+
+    Singnow::Document.all
+
+Show a docuemnt:
+
+    Singnow::Document.show(id: 'document_id')
+
+Download a docuemnt:
+
+    Singnow::Document.download(id: 'document_id')
+
+
 Documentation
 =====
 
