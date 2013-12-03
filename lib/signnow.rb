@@ -5,7 +5,8 @@ require "signnow/version"
 
 module Signnow
   DOMAIN_BASE = 'capi-eval'
-  API_BASE    = 'signnow.com/api/'
+  API_BASE    = 'signnow.com'
+  API_BASE_PATH = 'api'
   API_VERSION = 'v1'
   ROOT_PATH   = File.dirname(__FILE__)
 
@@ -63,7 +64,7 @@ module Signnow
   # @param [Hash] data The data to send, e.g. used when creating new objects.
   # @return [Array] The parsed JSON response.
   def self.request(http_method, domain, api_url, data)
-    info = Request::Info.new(http_method, api_url, data)
+    info = Request::Info.new(http_method, domain, api_url, data)
     Request::Base.new(info).perform
   end
 end

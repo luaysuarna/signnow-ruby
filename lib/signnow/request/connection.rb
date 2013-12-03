@@ -1,4 +1,4 @@
-module Singnow
+module Signnow
   module Request
     class Connection
       include Helpers
@@ -9,7 +9,7 @@ module Singnow
       end
 
       def setup_https
-        @https             = Net::HTTP.new(DOMAIN_BASE + API_BASE, Net::HTTP.https_default_port)
+        @https             = Net::HTTP.new( @info.subdomain + '.' + API_BASE, Net::HTTP.https_default_port)
         @https.use_ssl     = true
       end
 
@@ -25,9 +25,9 @@ module Singnow
         return {} unless @info.authentication[:type]
         case @info.authentication[:type]
         when :basic
-          {{'Authorization' => "Basic #{Singnow.api_token}}"}}
+          {'Authorization' => "Basic #{Signnow.api_token}}"}
         when :user_token
-          {{'Authorization' => "Bearer #{Singnow.oauth.access_token}}"}}
+          {'Authorization' => "Bearer #{Signnow.oauth.access_token}}"}
         else
           {}
         end
@@ -44,8 +44,6 @@ module Singnow
                         else
                           Net::HTTP::Get.new(@info.path_with_params(@info.url, @info.data.merge(authentication)))
                         end
-
-        end
 
         if [:post, :put].include?(@info.http_method)
           request.body = JSON.generate(normalize_params(@info.data))
