@@ -7,8 +7,8 @@ module Signnow
         # @param [Integer] id The id of the object that should be shown
         # @return [Signnow::Base] The found object
         def show(id=nil)
-          response = Signnow.request(:get, nil, api_show_url(id), {})
-          self.new(response["data"])
+          response = Signnow.request(:get, nil, api_show_url(id), {}, options_for_show)
+          self.new(response)
         end
 
         # URl for the show endpoint
@@ -20,6 +20,14 @@ module Signnow
           url
         end
         protected :api_show_url
+
+        # Options for show
+        # overwrite this in the model to set security
+        #
+        # @return [Hash]
+        def options_for_show
+          { auth_type: :user_token }
+        end
       end
 
       def self.included(base)

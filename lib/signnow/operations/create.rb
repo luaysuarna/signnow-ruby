@@ -6,8 +6,8 @@ module Signnow
         #
         # @param [Hash] attributes The attributes of the created object
         def create(attributes)
-          response = Signnow.request(:post, nil, api_create_url, attributes)
-          self.new(response["data"])
+          response = Signnow.request(:post, nil, api_create_url, attributes, options_for_create)
+          self.new(response)
         end
 
         # URl for the create endpoint
@@ -17,6 +17,14 @@ module Signnow
           "#{self.name.split("::").last.downcase}"
         end
         protected :api_create_url
+
+        # Options for create
+        # overwrite this in the model if the api is not well named
+        #
+        # @return [Hash]
+        def options_for_create
+          { auth_type: :basic }
+        end
       end
 
       def self.included(base)

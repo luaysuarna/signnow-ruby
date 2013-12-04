@@ -26,6 +26,12 @@ describe Signnow::User do
       }
   end
 
+  let(:valid_create_response) do
+    JSON.parse %{
+      {\"id\":\"d0a68ff1d605e23148b411a9405de65b5fff12af\",\"verified\":0,\"email\":\"test@andresbravo.com\"}
+    }
+  end
+
   let (:user) do
     Signnow::User.new(valid_attributes)
   end
@@ -43,16 +49,34 @@ describe Signnow::User do
   end
 
   describe ".show" do
+    before :each do
+      allow(Signnow).to receive(:request).and_return(valid_attributes)
+    end
     it "makes a new GET request using the correct API endpoint to receive a specific user" do
-      Signnow.should_receive(:request).with(:get, nil, "user", {}).and_return("data" => {})
+      expect(Signnow).to receive(:request).with(:get, nil, "user", {}, { auth_type: :user_token })
       Signnow::User.show
+    end
+    it 'returns a user with the correct id' do
+      expect(Signnow::User.show.id).to eql('23f2f9dc10e0f12883f78e91296207640dede6d1')
+    end
+    it 'returns a user with the correct first_name' do
+      expect(Signnow::User.show.first_name).to eql('Test')
+    end
+    it 'returns a user with the correct last_name' do
+      expect(Signnow::User.show.last_name).to eql('User')
     end
   end
 
   describe ".create" do
+    before :each do
+      allow(Signnow).to receive(:request).and_return(valid_create_response)
+    end
     it "makes a new POST request using the correct API endpoint" do
-      Signnow.should_receive(:request).with(:post, nil, "user", valid_attributes).and_return("data" => {})
+      expect(Signnow).to receive(:request).with(:post, nil, "user", valid_attributes, { auth_type: :basic })
       Signnow::User.create(valid_attributes)
+    end
+    it 'returns a user with the correct id' do
+      expect(Signnow::User.show.id).to eql('d0a68ff1d605e23148b411a9405de65b5fff12af')
     end
   end
 end
