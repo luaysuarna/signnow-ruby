@@ -9,6 +9,7 @@ module Signnow
       end
 
       def validated_data_for(incoming_response)
+        binding.pry
         self.response = incoming_response
         verify_response_code
         info.data = JSON.parse(response.body)

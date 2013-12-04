@@ -4,7 +4,7 @@ module Signnow
     include Signnow::Operations::Create
     include Signnow::Operations::Find
 
-    attr_accessor :created, :errors
+    attr_accessor :created
 
     # Initializes the object using the given attributes
     #
@@ -12,7 +12,6 @@ module Signnow
     def initialize(attributes = {})
       set_attributes(attributes)
       parse_timestamps
-      @errors = []
     end
 
     # Model validations
@@ -20,6 +19,12 @@ module Signnow
     # @return [Boolean]
     def valid?
       self.errors.empty?
+    end
+
+    # Accesor for the errors
+    #
+    def errors
+      @errors || []
     end
 
     # Sets the attributes
