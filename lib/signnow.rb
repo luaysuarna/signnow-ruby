@@ -64,8 +64,8 @@ module Signnow
   # @param [String] api_url The API url to use
   # @param [Hash] data The data to send, e.g. used when creating new objects.
   # @return [Array] The parsed JSON response.
-  def self.request(http_method, domain, api_url, data)
-    info = Request::Info.new(http_method, domain, api_url, data)
+  def self.request(http_method, domain, api_url, data, options={})
+    info = Request::Info.new(http_method, domain, api_url, data, options)
     Request::Base.new(info).perform
   end
 end

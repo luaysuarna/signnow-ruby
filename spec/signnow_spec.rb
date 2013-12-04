@@ -26,8 +26,13 @@ describe Signnow do
       end
 
       it "doesn't add a question mark if no params" do
-        Signnow.request(:get, nil, "user", {})
-        WebMock.should have_requested(:get, "https://#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/#{Signnow::API_BASE_PATH}/user/")
+        Signnow.request(:post, nil, "user", {})
+        WebMock.should have_requested(:post, "https://#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/#{Signnow::API_BASE_PATH}/user/")
+      end
+
+      it "uses correct authentication header if basic auth is setted" do
+        Signnow.request(:post, nil, "user", {id: 'new_id'}, { auth_type: :basic })
+        WebMock.should have_requested(:post, "https://%CA%8B%ABj%98%A4@#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/#{Signnow::API_BASE_PATH}/user")
       end
     end
   end
