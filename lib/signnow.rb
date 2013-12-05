@@ -14,6 +14,7 @@ module Signnow
 
   autoload :Base,           "signnow/base"
   autoload :User,           "signnow/user"
+  autoload :Document,       "signnow/document"
   autoload :Client,         "signnow/client"
 
   module Authentications
