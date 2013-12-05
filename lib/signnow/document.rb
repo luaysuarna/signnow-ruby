@@ -18,7 +18,7 @@ module Signnow
       # Redefining the documents api endpoint
       #
       def api_all_url
-          "/user/documentsv2"
+          "user/documentsv2"
       end
       protected :api_all_url
     end
