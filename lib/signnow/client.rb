@@ -1,14 +1,14 @@
 module Signnow
   class Client
-    attr_reader :access_token, :api
+    attr_reader :access_token
 
     # Creates an account object using the given Signnow user.
     # existing account.
     #
     # @param [String] User access token to use the signnow api.
-    def initialize(access_token=nil, &block)
+    def initialize(access_token=nil)
       @access_token = access_token
-      perform!(block)
+      self
     end
 
     # Executes block with the access token
