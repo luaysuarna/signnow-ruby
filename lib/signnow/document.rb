@@ -15,6 +15,8 @@ module Signnow
     end
 
     class << self
+      # Redefining the documents api endpoint
+      #
       def api_all_url
           "/user/documentsv2"
       end

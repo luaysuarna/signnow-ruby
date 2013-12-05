@@ -36,6 +36,8 @@ describe Signnow::User do
     Signnow::User.new(valid_attributes)
   end
 
+  let(:user_access_token) { '_user_access_token_' }
+
   describe "#initialize" do
     it 'initializes all attributes correctly' do
       user.email.should eql('hola+test@andresbravo.com')
@@ -49,34 +51,36 @@ describe Signnow::User do
   end
 
   describe ".show" do
+    let(:user_show) { Signnow::User.show(access_token: user_access_token) }
     before :each do
       allow(Signnow).to receive(:request).and_return(valid_attributes)
     end
     it "makes a new GET request using the correct API endpoint to receive a specific user" do
-      expect(Signnow).to receive(:request).with(:get, nil, "user", {}, { auth_type: :user_token })
-      Signnow::User.show
+      expect(Signnow).to receive(:request).with(:get, nil, "user", {}, { auth_type: :user_token, auth_token: user_access_token })
+      user_show
     end
     it 'returns a user with the correct id' do
-      expect(Signnow::User.show.id).to eql('23f2f9dc10e0f12883f78e91296207640dede6d1')
+      expect(user_show.id).to eql('23f2f9dc10e0f12883f78e91296207640dede6d1')
     end
     it 'returns a user with the correct first_name' do
-      expect(Signnow::User.show.first_name).to eql('Test')
+      expect(user_show.first_name).to eql('Test')
     end
     it 'returns a user with the correct last_name' do
-      expect(Signnow::User.show.last_name).to eql('User')
+      expect(user_show.last_name).to eql('User')
     end
   end
 
   describe ".create" do
+    let(:user_create) { Signnow::User.create(valid_attributes) }
     before :each do
       allow(Signnow).to receive(:request).and_return(valid_create_response)
     end
     it "makes a new POST request using the correct API endpoint" do
       expect(Signnow).to receive(:request).with(:post, nil, "user", valid_attributes, { auth_type: :basic })
-      Signnow::User.create(valid_attributes)
+      user_create
     end
     it 'returns a user with the correct id' do
-      expect(Signnow::User.show.id).to eql('d0a68ff1d605e23148b411a9405de65b5fff12af')
+      expect(user_create.id).to eql('d0a68ff1d605e23148b411a9405de65b5fff12af')
     end
   end
 end

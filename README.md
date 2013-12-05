@@ -25,10 +25,6 @@ and set up your api_key
 
     Signnow.api_key = "_your_application_api_key_"
 
-all the operations made over a user needs a oauth_token
-
-    Signnow.oauth_token = "_your_user_oauth_token_"
-
 
 Oauth
 =====
@@ -37,11 +33,15 @@ Oauth
 
 Creating a oauth token:
 
-    oauth = Signnow::Authentications::Oauth.authenticate(
+    client = Signnow::Client.authenticate(
       email: 'yournewuser@email.com', # required
       password: 'user_password', # required
     )
-    Signnow.oauth_token = oauth.access_token
+
+    # Now you can perform any user api call inside the clien wrapper
+    client.perform! do |token|
+      Signnow::User.show(access_token: token)
+    end
 
 
 Users
@@ -51,16 +51,26 @@ Users
 
 Creating a user:
 
-    Singnow::User.create(
+    user = Singnow::User.create(
       email: 'yournewuser@email.com', # required
       password: 'new_password', # required
       first_name: 'john', # optional
       last_name: 'doe', # optional
     )
 
+Store the acess_token
+
+    token = user.access_token
+
+Generate a client with the access token
+
+    client = Signnow::Client.new(token)
+
 Showing a user:
 
-    Singnow::Payment.show
+    client.perform! |token|
+      Singnow::User.show(access_token: token)
+    end
 
 
 Documents
@@ -70,15 +80,21 @@ Documents
 
 List user documents:
 
-    Singnow::Document.all
+    client.perform! |token|
+      Singnow::Document.all(access_token: token)
+    end
 
 Show a docuemnt:
 
-    Singnow::Document.show(id: 'document_id')
+    client.perform! |token|
+      Singnow::Document.show(id: 'document_id', access_token: token)
+    end
 
 Download a docuemnt:
 
-    Singnow::Document.download(id: 'document_id')
+    client.perform! |token|
+      Singnow::Document.download(id: 'document_id', access_token: token)
+    end
 
 
 Documentation

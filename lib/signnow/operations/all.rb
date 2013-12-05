@@ -6,8 +6,8 @@ module Signnow
         #
         # @param [Hash] options Options to pass to the API
         # @return [Array] The available objects
-        def all(options = {})
-          response = Signnow.request(:get, nil, api_all_url , options)
+        def all(attributes = {})
+          response = Signnow.request(:get, nil, api_all_url , attributes, options_for_al(attributes))
           results_from response
         end
 
@@ -18,6 +18,19 @@ module Signnow
           "#{self.name.split("::").last.downcase}"
         end
         protected :api_all_url
+
+        # Options for all
+        # overwrite this in the model to set security
+        #
+        # @return [Hash]
+        def options_for_all(attributes)
+          access_token = attributes.delete(:access_token)
+          raise AuthenticationError unless access_token
+          {
+            auth_type: :user_token,
+            auth_token: access_token
+          }
+        end
 
         private
         def results_from(response)

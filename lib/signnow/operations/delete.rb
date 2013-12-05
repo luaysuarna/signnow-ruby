@@ -5,8 +5,9 @@ module Signnow
         # Deletes the given object
         #
         # @param [Integer] id The id of the object that gets deleted
-        def delete(id)
-          response = Signnow.request(:delete, nil, api_delete_url(id) , {})
+        def delete(attributes={})
+          id = attributes.delete(:id)
+          response = Signnow.request(:delete, nil, api_delete_url(id) , {}, options_for_delete(attributes))
           true
         end
 
@@ -17,6 +18,20 @@ module Signnow
           "#{self.name.split("::").last.downcase}s/#{id}"
         end
         protected :api_delete_url
+
+        # Options for delete
+        # overwrite this in the model to set security
+        #
+        # @return [Hash]
+        def options_for_delete(attributes)
+          access_token = attributes.delete(:access_token)
+          raise AuthenticationError unless access_token
+          {
+            auth_type: :user_token,
+            auth_token: access_token
+          }
+        end
+        protected :options_for_delete
       end
 
       def self.included(base)
