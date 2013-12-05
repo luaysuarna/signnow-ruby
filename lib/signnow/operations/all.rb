@@ -35,7 +35,7 @@ module Signnow
         private
         def results_from(response)
           results = []
-          response["data"].each do |obj|
+          response.each do |obj|
             results << self.new(obj)
           end
           results
