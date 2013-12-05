@@ -24,7 +24,7 @@ module Signnow
       end
 
       def validate_response_data
-        raise APIError.new(info.data["error"]) if info.data["error"]
+        raise APIError.new(info.data["error"]) if info.data.is_a?(Hash) && info.data["error"] 
       end
     end
   end

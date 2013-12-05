@@ -30,7 +30,7 @@ module Signnow
           {'Authorization' => "Basic #{Signnow.api_key}}"}
         when :user_token
           raise AuthenticationError unless @info.authentication[:token]
-          {'Authorization' => "Bearer #{@info.authentication[:token]}}"}
+          {'Authorization' => "Bearer #{@info.authentication[:token]}"}
         else
           {}
         end
@@ -45,7 +45,7 @@ module Signnow
                         when :delete
                           Net::HTTP::Delete.new(@info.url, authentication)
                         else
-                          Net::HTTP::Get.new(@info.path_with_params(@info.url, @info.data.merge(authentication)))
+                          Net::HTTP::Get.new(@info.path_with_params(@info.url, @info.data), authentication)
                         end
 
         if [:post, :put].include?(@info.http_method)

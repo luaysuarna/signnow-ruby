@@ -15,6 +15,8 @@ module Signnow
     end
 
     def email
+      return @email if @email
+      return unless emails
       emails.first
     end
 
