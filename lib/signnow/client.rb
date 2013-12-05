@@ -6,7 +6,7 @@ module Signnow
     # existing account.
     #
     # @param [String] User access token to use the signnow api.
-    def inizialize(access_token=nil, &block)
+    def initialize(access_token=nil, &block)
       @access_token = access_token
       perform!(block)
     end
