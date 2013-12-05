@@ -7,7 +7,7 @@ module Signnow
         # @param [Hash] options Options to pass to the API
         # @return [Array] The available objects
         def all(attributes = {})
-          response = Signnow.request(:get, nil, api_all_url , attributes, options_for_al(attributes))
+          response = Signnow.request(:get, nil, api_all_url , attributes, options_for_all(attributes))
           results_from response
         end
 
