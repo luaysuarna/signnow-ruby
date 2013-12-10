@@ -1,6 +1,6 @@
 # [WIP] work in progress!!!
 
-SignNow [![Build Status](https://secure.travis-ci.org/andresbravog/signnow-ruby.png)](https://travis-ci.org/andresbravog/signnow-ruby) [![Code Climate](https://codeclimate.com/github/andresbravog/signnow-ruby.png)](https://codeclimate.com/github/andresbravog/signnow-ruby) 
+SignNow [![Build Status](https://secure.travis-ci.org/andresbravog/signnow-ruby.png)](https://travis-ci.org/andresbravog/signnow-ruby) [![Code Climate](https://codeclimate.com/github/andresbravog/signnow-ruby.png)](https://codeclimate.com/github/andresbravog/signnow-ruby) [![Coverage Status](https://coveralls.io/repos/andresbravog/signnow-ruby/badge.png)](https://coveralls.io/r/andresbravog/signnow-ruby)
 ======
 
 This is a Ruby wrapper for SignNow's API.
