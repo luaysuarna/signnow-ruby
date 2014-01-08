@@ -27,7 +27,7 @@ module Signnow
         case @info.authentication[:type]
         when :basic
           raise AuthenticationError unless Signnow.encoded_app_credentials
-          {'Authorization' => "Basic #{Signnow.encoded_app_credentials}}"}
+          {'Authorization' => "Basic #{Signnow.encoded_app_credentials}"}
         when :user_token
           raise AuthenticationError unless @info.authentication[:token]
           {'Authorization' => "Bearer #{@info.authentication[:token]}"}
@@ -49,7 +49,11 @@ module Signnow
                         end
 
         if [:post, :put].include?(@info.http_method)
-          https_request.body = JSON.generate(normalize_params(@info.data))
+          if @info.use_form_data?
+            https_request.set_form_data(@info.data)
+          else
+            https_request.body = JSON.generate(normalize_params(@info.data))
+          end
         end
 
         https_request

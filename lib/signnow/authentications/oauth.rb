@@ -4,7 +4,7 @@ module Signnow
       include Signnow::Operations::Create
 
       attr_accessor :created, :access_token, :token_type, :expires_in,
-        :refresh_token, :scope
+        :refresh_token, :scope, :last_login
 
       class << self
         # Returns the redirect url to authorize
@@ -21,13 +21,13 @@ module Signnow
             response_type: 'code'
           }
 
-          "#{path}?#{URI.encode_www_form(params)}"
+          "#{base_url}#{path}?#{URI.encode_www_form(params)}"
         end
 
         protected
 
         def api_authenticate_url
-          "/oauth2/token"
+          "oauth2/token"
         end
 
         # Attributes for the authentication mehtod
@@ -59,7 +59,9 @@ module Signnow
 
       # Parses UNIX timestamps and creates Time objects.
       def parse_timestamps
-        @created = Time.at(created_at) if created
+        @created = Time.at(created.to_i) if created
+        @expires_in = Time.at(expires_in.to_i) if expires_in
+        @last_login = Time.at(last_login.to_i) if last_login
       end
     end
   end

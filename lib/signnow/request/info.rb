@@ -1,7 +1,7 @@
 module Signnow
   module Request
     class Info
-      attr_accessor :http_method, :api_url, :data, :subdomain, :authentication, :base_path
+      attr_accessor :http_method, :api_url, :data, :subdomain, :authentication, :base_path, :options
 
       def initialize(http_method, subdomain, api_url, data, options={})
         @http_method = http_method
@@ -10,8 +10,9 @@ module Signnow
         @data        = data
         @base_path   = API_BASE_PATH
         @authentication = {}
-        @authentication[:type] = options[:auth_type]
-        @authentication[:token] = options[:auth_token]
+        @authentication[:type] = options.delete(:auth_type)
+        @authentication[:token] = options.delete(:auth_token)
+        @options = options
       end
 
       def url
@@ -33,10 +34,14 @@ module Signnow
         end
       end
 
+      def use_form_data?
+        (options || {}).fetch(:use_form_data, false)
+      end
+
       protected
 
       def has_id?
-        data[:id].nil?
+        !data[:id].nil?
       end
     end
   end

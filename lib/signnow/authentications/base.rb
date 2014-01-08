@@ -7,13 +7,16 @@ module Signnow
         # @param [Hash] attributes Attributes to pass to the API
         # @return [Array] The available objects
         def authenticate(attributes = {})
-          response = Signnow.request(:post,
-            domain,
+          response = Signnow.request(
+            :post,
+            nil,
             self.api_authenticate_url,
             attributes_for_authentication(attributes),
-            options_for_authentication
+            options_for_authentication.merge(
+              use_form_data: true
+            )
           )
-          self.new(response["data"])
+          self.new(response)
         end
 
         protected
