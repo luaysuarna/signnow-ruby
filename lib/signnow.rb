@@ -2,6 +2,7 @@ require "net/http"
 require "net/https"
 require "json"
 require "signnow/version"
+require 'base64'
 
 module Signnow
   DOMAIN_BASE = 'capi-eval'
@@ -10,7 +11,7 @@ module Signnow
   API_VERSION = 'v1'
   ROOT_PATH   = File.dirname(__FILE__)
 
-  @@api_key = nil
+  @@configuration = {}
 
   autoload :Base,           "signnow/base"
   autoload :User,           "signnow/user"
@@ -46,15 +47,28 @@ module Signnow
   # Returns the set api key
   #
   # @return [String] The api key
-  def self.api_key
-    @@api_key
+  def self.encoded_app_credentials
+    return unless configuration[:app_id] && configuration[:app_secret]
+    configuration[:encoded_app_credentials] ||=
+      Base64.encode64("#{configuration[:app_id]}:#{configuration[:app_secret]}").gsub(/[\n=]/,'')
   end
 
-  # Sets the api key
+  # Use thisfunciotn with a block to add app credentials configuration
+  # Example:
   #
-  # @param [String] api_key The api key
-  def self.api_key=(api_key)
-    @@api_key = api_key
+  # Signnow.configure do |config|
+  #   config[:app_id] = 'your_app_id'
+  #   config[:app_secret] = 'your_app_secret'
+  # end
+  def self.configure
+    return unless block_given?
+    yield(configuration)
+  end
+
+  # Returns configuration hash
+  # @return [Hash]
+  def self.configuration
+    @@configuration
   end
 
   # Makes a request against the Signnow API

@@ -6,6 +6,40 @@ module Signnow
       attr_accessor :created, :access_token, :token_type, :expires_in,
         :refresh_token, :scope
 
+      class << self
+        # Returns the redirect url to authorize
+        #
+        # @param [Hash] options
+        # @option options [String] redirect_url () redirect url to receive the code param
+        def authorize_url(options = {})
+          protocol = "https"
+          base_url = "#{protocol}://#{domain}.#{API_BASE}"
+          path = "/proxy/index.php/authorize"
+          params = {
+            client_id: Signnow.configuration[:app_id],
+            redirect_uri: options[:redirect_uri],
+            response_type: 'code'
+          }
+
+          "#{path}?#{URI.encode_www_form(params)}"
+        end
+
+        protected
+
+        def api_authenticate_url
+          "/oauth2/token"
+        end
+
+        # Attributes for the authentication mehtod
+        # overwrite this in the class to add attributes
+        #
+        # @param [Hash] attributes to merge with
+        # @return [Hash]
+        def attributes_for_authentication(attributes={})
+          { grant_type: 'authorization_code' }.merge(attributes)
+        end
+      end
+
       # Initializes the object using the given attributes
       #
       # @param [Hash] attributes The attributes to use for initialization
@@ -26,13 +60,6 @@ module Signnow
       # Parses UNIX timestamps and creates Time objects.
       def parse_timestamps
         @created = Time.at(created_at) if created
-      end
-
-      class << self
-        def api_authenticate_url
-          "/oauth2/token"
-        end
-        protected :api_authenticate_url
       end
     end
   end

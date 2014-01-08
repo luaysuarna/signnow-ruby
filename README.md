@@ -23,7 +23,10 @@ and require it
 
 and set up your api_key
 
-    Signnow.api_key = "_your_application_api_key_"
+    Signnow.configure do |config|
+      config[:app_id] = "_your_application_app_id_",
+      config[:app_secret] = "_your_application_app_secret_"
+    end
 
 
 Oauth

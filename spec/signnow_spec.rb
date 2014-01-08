@@ -4,14 +4,20 @@ describe Signnow do
   describe ".request" do
     context "given no api key exists" do
       it "raises an authentication error" do
-        Signnow.api_key = nil
+        Signnow.configure do |config|
+          config[:app_id] = nil
+          config[:app_secret] = nil
+        end
         expect { Signnow.request(:get, nil, "clients", {}) }.to raise_error(Signnow::AuthenticationError)
       end
     end
 
     context "with an invalid api key" do
       before(:each) do
-        Signnow.api_key = "_your_api_key_"
+        Signnow.configure do |config|
+          config[:app_id] = 'my_app_id'
+          config[:app_secret] = 'my_app_secret'
+        end
         WebMock.stub_request(:any, /#{Signnow::API_BASE}/).to_return(:body => "{}")
       end
 
@@ -32,7 +38,7 @@ describe Signnow do
 
       it "uses correct authentication header if basic auth is setted" do
         Signnow.request(:post, nil, "user", {id: 'new_id'}, { auth_type: :basic })
-        WebMock.should have_requested(:post, "https://%CA%8B%ABj%98%A4@#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/#{Signnow::API_BASE_PATH}/user")
+        WebMock.should have_requested(:post, "https://#{Signnow.configuration[:app_id]}:#{Signnow.configuration[:app_secret]}@#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/#{Signnow::API_BASE_PATH}/user")
       end
     end
   end

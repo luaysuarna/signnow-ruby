@@ -2,7 +2,10 @@ require "spec_helper"
 
 describe Signnow::Request::Connection do
   before :each do
-    Signnow.api_key = "_your_signnow_api_key_"
+    Signnow.configure do |config|
+      config[:app_id] = 'my_app_id'
+      config[:app_secret] = 'my_app_secret'
+    end
   end
 
   describe "#setup_https" do

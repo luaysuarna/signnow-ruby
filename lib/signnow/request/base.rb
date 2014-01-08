@@ -9,7 +9,7 @@ module Signnow
       end
 
       def perform
-        raise AuthenticationError if Signnow.api_key.nil?
+        raise AuthenticationError if Signnow.encoded_app_credentials.nil?
         connection.setup_https
         send_request
 

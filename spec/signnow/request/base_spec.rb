@@ -3,7 +3,7 @@ require "spec_helper"
 describe Signnow::Request::Base do
   context "#perform" do
     it "checks for an api key" do
-      Signnow.stub(:api_key).and_return(nil)
+      Signnow.stub(:encoded_app_credentials).and_return(nil)
 
       expect{
         Signnow::Request::Base.new(nil).perform
@@ -11,7 +11,7 @@ describe Signnow::Request::Base do
     end
 
     it "performs an https request" do
-      Signnow.stub(:api_key).and_return("some key")
+      Signnow.stub(:encoded_app_credentials).and_return("some key")
       connection = double
       validator  = double
       Signnow::Request::Connection.stub(:new).and_return(connection)
