@@ -39,7 +39,8 @@ describe Signnow::Request::Connection do
         subdomain: Signnow::DOMAIN_BASE,
         authentication: {
           type: :basic
-        }
+        },
+        use_form_data?: false
       )
       connection = Signnow::Request::Connection.new(info)
       connection.setup_https
