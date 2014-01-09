@@ -35,7 +35,7 @@ module Signnow
       end
 
       def use_form_data?
-        (options || {}).fetch(:use_form_data, false)
+        options.fetch(:use_form_data, false)
       end
 
       protected
