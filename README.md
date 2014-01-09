@@ -28,23 +28,39 @@ and set up your api_key
       config[:app_secret] = "_your_application_app_secret_"
     end
 
+set the extra ```:use_test_env?``` config option to true if you want to use the [signnow test environment](https://eval.signnow.com)
+
+    Signnow.configure do |config|
+      config[:use_test_env?] = true
+    end
 
 Oauth
 =====
 
 *[SignNow oauth2 API documentation](https://signnow.atlassian.net/wiki/display/SAPI/REST+Endpoints#RESTEndpoints-POST/oauth2)*
 
-Creating a oauth token:
+Redirecting the user to the authorize url, You need to provide a redirect url where you will get a code param.
 
-    client = Signnow::Client.authenticate(
-      email: 'yournewuser@email.com', # required
-      password: 'user_password', # required
-    )
+    # Redirect the user to the authorize url
+    redirect_to Signnow::Authentications::Oauth.authorize_url(redirect_uri: your_redirect_url)
 
-    # Now you can perform any user api call inside the clien wrapper
-    client.perform! do |token|
-      Signnow::User.show(access_token: token)
-    end
+Process the code param in order to get user oauth credentials.
+
+    oauth_credentials = Signnow::Authentications::Oauth.authenticate(code: code)
+
+    =>
+    {
+      access_token: '_user_access_token_',
+      refresh_token: '_user_refresh_token',
+      token_type: 'bearer',
+      scope: '*',
+      last_login: 2013929273,
+      expires_in: 2013929273
+    }
+
+Store the access token credentials in order to use the Signnow API
+
+    Signnow::User.show(access_token: oauth_credentials.access_token)
 
 
 Users

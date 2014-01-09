@@ -5,7 +5,7 @@ module Signnow
 
       def initialize(http_method, subdomain, api_url, data, options={})
         @http_method = http_method
-        @subdomain   = subdomain || DOMAIN_BASE
+        @subdomain   = subdomain || Signnow.domain
         @api_url     = api_url
         @data        = data
         @base_path   = API_BASE_PATH

@@ -5,7 +5,8 @@ require "signnow/version"
 require 'base64'
 
 module Signnow
-  DOMAIN_BASE = 'capi-eval'
+  DOMAIN_BASE = 'api'
+  TEST_DOMAIN_BASE = 'capi-eval'
   API_BASE    = 'signnow.com'
   API_BASE_PATH = 'api'
   API_VERSION = 'v1'
@@ -81,5 +82,15 @@ module Signnow
   def self.request(http_method, domain, api_url, data, options={})
     info = Request::Info.new(http_method, domain, api_url, data, options)
     Request::Base.new(info).perform
+  end
+
+  # Returns the domain base of the api depending on the env
+  #
+  def self.domain
+    if configuration[:use_test_env?]
+      TEST_DOMAIN_BASE
+    else
+      DOMAIN_BASE
+    end
   end
 end

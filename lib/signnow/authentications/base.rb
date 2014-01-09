@@ -45,7 +45,11 @@ module Signnow
         end
 
         def domain
-          'eval'
+          if Signnow.configuration[:use_test_env?]
+            'eval'
+          else
+            'www'
+          end
         end
       end
     end
