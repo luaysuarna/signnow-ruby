@@ -51,7 +51,7 @@ module Signnow
   def self.encoded_app_credentials
     return unless configuration[:app_id] && configuration[:app_secret]
     configuration[:encoded_app_credentials] ||=
-      Base64.encode64("#{configuration[:app_id]}:#{configuration[:app_secret]}").gsub(/[\n=]/,'')
+      Base64.strict_encode64("#{configuration[:app_id]}:#{configuration[:app_secret]}")
   end
 
   # Use thisfunciotn with a block to add app credentials configuration
