@@ -38,7 +38,7 @@ describe Signnow do
 
       it "uses correct authentication header if basic auth is setted" do
         Signnow.request(:post, nil, "user", {id: 'new_id'}, { auth_type: :basic })
-        WebMock.should have_requested(:post, "https://#{Signnow.configuration[:app_id]}:#{Signnow.configuration[:app_secret][0..-3]}@#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/#{Signnow::API_BASE_PATH}/user/new_id")
+        WebMock.should have_requested(:post, "https://#{Signnow.configuration[:app_id]}:#{Signnow.configuration[:app_secret]}@#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/#{Signnow::API_BASE_PATH}/user/new_id")
       end
     end
   end
