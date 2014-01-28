@@ -151,6 +151,23 @@ describe Signnow::Document do
     end
   end
 
+  describe ".download_link" do
+    let(:document_download_link) { Signnow::Document.download_link(access_token: user_access_token, id: document.id ) }
+    let(:valid_link_attributes) do
+      { 'link' => 'https://signnow.com/dispatch?route=onetimedownload&document_download_id=67de624701a70cdfe208b5c537f61fefa48b410a' }
+    end
+    before :each do
+      allow(Signnow).to receive(:request).and_return(valid_link_attributes)
+    end
+    it "makes a new GET request using the correct API endpoint to receive a specific user" do
+      expect(Signnow).to receive(:request).with(:get, nil, "document/#{document.id}/download/link", {}, { auth_type: :user_token, auth_token: user_access_token })
+      document_download_link
+    end
+    it 'returns a user with the correct link' do
+      expect(document_download_link).to eql('https://signnow.com/dispatch?route=onetimedownload&document_download_id=67de624701a70cdfe208b5c537f61fefa48b410a')
+    end
+  end
+
   describe ".all" do
     let(:document_all) { Signnow::Document.all(access_token: user_access_token) }
     before :each do

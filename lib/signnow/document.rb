@@ -2,6 +2,7 @@ module Signnow
   class Document < Base
     include Signnow::Operations::Show
     include Signnow::Operations::All
+    include Signnow::Operations::DownloadLink
 
     attr_accessor :id, :user_id, :document_name, :page_count, :created,
     :updated, :original_filename, :thumbnail, :signatures, :seals, :texts,

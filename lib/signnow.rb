@@ -30,6 +30,7 @@ module Signnow
     autoload :Delete, "signnow/operations/delete"
     autoload :Find,   "signnow/operations/find"
     autoload :Show,   "signnow/operations/show"
+    autoload :DownloadLink,   "signnow/operations/download_link"
     autoload :Update, "signnow/operations/update"
   end
 

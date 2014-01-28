@@ -109,11 +109,12 @@ Show a docuemnt:
       Singnow::Document.show(id: 'document_id', access_token: token)
     end
 
-Download a docuemnt:
+Get a one time download link for a document:
 
-    client.perform! |token|
-      Singnow::Document.download(id: 'document_id', access_token: token)
-    end
+    link =
+      client.perform! |token|
+        Singnow::Document.download_link(id: 'document_id', access_token: token)
+      end
 
 
 Documentation
