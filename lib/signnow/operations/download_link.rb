@@ -33,7 +33,7 @@ module Signnow
         end
 
         def parse_link(link)
-          return unless link && Signnow.configuration[:use_test_env?]
+          return link unless link && Signnow.configuration[:use_test_env?]
           link.gsub('signnow.com', 'eval.signnow.com')
         end
       end
