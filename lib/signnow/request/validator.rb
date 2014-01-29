@@ -11,7 +11,6 @@ module Signnow
       def validated_data_for(incoming_response)
         self.response = incoming_response
         verify_response_code
-        reparse_wrong_json
         info.data = JSON.parse(response.body)
         validate_response_data
         info.data
@@ -22,11 +21,6 @@ module Signnow
       def verify_response_code
         raise AuthenticationError if response.code.to_i == 401
         raise APIError if response.code.to_i >= 500
-      end
-
-      def reparse_wrong_json
-        return unless response.body.match("{'")
-        response.body = response.body.gsub(/(')/, '"')
       end
 
       def validate_response_data

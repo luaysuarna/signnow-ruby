@@ -6,7 +6,7 @@ module Signnow
         #
         def download_link(attributes={})
           response = Signnow.request(:post, nil, api_download_link_url(attributes[:id]), {}, options_for_download_link(attributes))
-          parse_link(response['link'])
+          response['link']
         end
 
         # URl for the show endpoint
@@ -30,11 +30,6 @@ module Signnow
             auth_type: :user_token,
             auth_token: attributes[:access_token]
           }
-        end
-
-        def parse_link(link)
-          return link unless link && Signnow.configuration[:use_test_env?]
-          link.gsub('signnow.com', 'eval.signnow.com')
         end
       end
 
