@@ -8,7 +8,7 @@ module Signnow
         @subdomain   = subdomain || Signnow.domain
         @api_url     = api_url
         @data        = data
-        @base_path   = API_BASE_PATH
+        @base_path   = Signnow.base_path
         @authentication = {}
         @authentication[:type] = options.delete(:auth_type)
         @authentication[:token] = options.delete(:auth_token)
@@ -16,7 +16,9 @@ module Signnow
       end
 
       def url
-        url = "/#{base_path}/#{api_url}"
+        url = ''
+        url += "/#{base_path}" if base_path
+        url += "/#{api_url}"
         if has_id?
           url += "/#{data[:id]}"
           data.delete(:id)

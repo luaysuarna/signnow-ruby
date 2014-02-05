@@ -8,7 +8,8 @@ module Signnow
   DOMAIN_BASE = 'api'
   TEST_DOMAIN_BASE = 'capi-eval'
   API_BASE    = 'signnow.com'
-  API_BASE_PATH = 'api'
+  API_BASE_PATH = nil
+  TEST_API_BASE_PATH = 'api'
   API_VERSION = 'v1'
   ROOT_PATH   = File.dirname(__FILE__)
 
@@ -93,5 +94,23 @@ module Signnow
     else
       DOMAIN_BASE
     end
+  end
+
+  # Returns the api base path depending on the env
+  #
+  def self.base_path
+    if configuration[:use_test_env?]
+      TEST_API_BASE_PATH
+    else
+      API_BASE_PATH
+    end
+  end
+
+  # Returns the api uri
+  #
+  def self.uri
+    uri = "https://#{domain}"
+    base_path && uri += "/#{base_path}"
+    uri
   end
 end

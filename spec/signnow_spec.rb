@@ -23,22 +23,22 @@ describe Signnow do
 
       it "attempts to get a url with one param" do
         Signnow.request(:get, nil, "user", { param_name: "param_value" })
-        WebMock.should have_requested(:get, "https://#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/#{Signnow::API_BASE_PATH}/user?param_name=param_value")
+        WebMock.should have_requested(:get, "https://#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/user?param_name=param_value")
       end
 
       it "attempts to get a url with more than one param" do
         Signnow.request(:get, nil, "user", { client: "client_id", order: "created_at_desc" })
-        WebMock.should have_requested(:get, "https://#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/#{Signnow::API_BASE_PATH}/user?client=client_id&order=created_at_desc")
+        WebMock.should have_requested(:get, "https://#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/user?client=client_id&order=created_at_desc")
       end
 
       it "doesn't add a question mark if no params" do
         Signnow.request(:post, nil, "user", {})
-        WebMock.should have_requested(:post, "https://#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/#{Signnow::API_BASE_PATH}/user")
+        WebMock.should have_requested(:post, "https://#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/user")
       end
 
       it "uses correct authentication header if basic auth is setted" do
         Signnow.request(:post, nil, "user", {id: 'new_id'}, { auth_type: :basic })
-        WebMock.should have_requested(:post, "https://#{Signnow.configuration[:app_id]}:#{Signnow.configuration[:app_secret]}@#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/#{Signnow::API_BASE_PATH}/user/new_id")
+        WebMock.should have_requested(:post, "https://#{Signnow.configuration[:app_id]}:#{Signnow.configuration[:app_secret]}@#{Signnow::DOMAIN_BASE}.#{Signnow::API_BASE}/user/new_id")
       end
     end
   end
