@@ -20,11 +20,32 @@ module Signnow
 
       def verify_response_code
         raise AuthenticationError if response.code.to_i == 401
+        raise NotFound if response.code.to_i == 404
         raise APIError if response.code.to_i >= 500
       end
 
-      def validate_response_data
-        raise APIError.new(info.data["error"]) if info.data.is_a?(Hash) && info.data["error"] 
+      def validate_response_data(body=nil)
+        body ||= info.data
+        if body.is_a?(Hash)
+          if body['404']
+            fail NotFound.new(body['404'])
+          elsif body['error']
+            handle_api_error(body['code'], body['error'])
+          elsif body['errors']
+            body['errors'].each do |error|
+              handle_api_error(error['code'], error['message'])
+            end
+          end
+        end
+      end
+
+      def handle_api_error(code, message)
+        error = case code
+                when 1539  then InvalidToken.new(message)
+                when 65536 then EmptyDocuments.new(message)
+                else            APIError.new(message)
+                end
+        fail error
       end
     end
   end

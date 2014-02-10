@@ -46,6 +46,9 @@ module Signnow
   class SignnowError < StandardError; end
   class AuthenticationError < SignnowError; end
   class APIError            < SignnowError; end
+  class NotFound            < SignnowError; end
+  class InvalidToken        < APIError; end
+  class EmptyDocuments        < APIError; end
 
   # Returns the set api key
   #
