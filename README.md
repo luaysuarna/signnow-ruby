@@ -1,5 +1,3 @@
-# [WIP] work in progress!!!
-
 SignNow [![Build Status](https://secure.travis-ci.org/andresbravog/signnow-ruby.png)](https://travis-ci.org/andresbravog/signnow-ruby) [![Code Climate](https://codeclimate.com/github/andresbravog/signnow-ruby.png)](https://codeclimate.com/github/andresbravog/signnow-ruby) [![Coverage Status](https://coveralls.io/repos/andresbravog/signnow-ruby/badge.png)](https://coveralls.io/r/andresbravog/signnow-ruby)
 ======
 
@@ -103,7 +101,7 @@ List user documents:
       Singnow::Document.all(access_token: token)
     end
 
-Show a docuemnt:
+Show a document:
 
     client.perform! |token|
       Singnow::Document.show(id: 'document_id', access_token: token)

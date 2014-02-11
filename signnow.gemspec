@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "signnow/version"
 
 Gem::Specification.new do |s|
-  s.name        = "signnow"
+  s.name        = "signnow-ruby"
   s.version     = Signnow::VERSION
   s.authors     = ["Andres Bravo"]
   s.email       = ["hola@andresbravo.com"]
