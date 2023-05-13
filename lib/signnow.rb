@@ -5,11 +5,11 @@ require "signnow/version"
 require 'base64'
 
 module Signnow
-  DOMAIN_BASE = 'api'
-  TEST_DOMAIN_BASE = 'capi-eval'
+  DOMAIN_BASE = 'api-eval'
+  TEST_DOMAIN_BASE = 'api-eval'
   API_BASE    = 'signnow.com'
   API_BASE_PATH = nil
-  TEST_API_BASE_PATH = 'api'
+  TEST_API_BASE_PATH = nil
   API_VERSION = 'v1'
   ROOT_PATH   = File.dirname(__FILE__)
 

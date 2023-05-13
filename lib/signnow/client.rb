@@ -24,6 +24,5 @@ module Signnow
       raise Signnow::AuthenticationError unless access_token
       block.call(access_token)
     end
-
   end
 end
